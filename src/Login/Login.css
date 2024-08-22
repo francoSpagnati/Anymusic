@@ -140,3 +140,27 @@
   .google-login-button:hover {
     background-color: darken(var(--bittersweet), 10%);
   }
+  .forgot-password-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 14px;
+    text-decoration: underline;
+  }
+  
+  .forgot-password-button:hover {
+    color: #0056b3;
+  }
+  
+  .success-message {
+    color: green;
+    margin-top: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
