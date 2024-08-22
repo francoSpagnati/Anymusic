@@ -1,0 +1,111 @@
+.home-container {
+  background-color: white;
+  padding-top: 80px; /* Aggiunge spazio per la barra di navigazione */
+}
+
+.home-bar {
+  background-color: var(--beige); /* Colore di sfondo beige */
+  position: fixed; /* Fissa la barra in alto */
+  top: 0;
+  width: 100%; /* La barra copre l'intera larghezza */
+  z-index: 1000; /* Assicura che la barra sia sopra altri contenuti */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra leggera */
+  display: flex; /* Utilizza flexbox per il layout */
+  align-items: center; /* Centra verticalmente gli elementi */
+  justify-content: space-between; /* Spazia gli elementi */
+  padding: 0 20px; /* Padding interno */
+  height: 60px; /* Altezza della barra */
+  box-sizing: border-box; /* Assicura che il padding sia incluso nella larghezza */
+}
+
+.home-bar .left-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.home-bar .left-buttons .icon {
+  margin-right: 20px; /* Spazio tra le icone */
+}
+
+.home-bar .left-buttons .logout-button {
+  margin-left: 20px; /* Spazio tra l'ultima icona e il pulsante logout */
+}
+
+.logout-button {
+  background-color: var(--bittersweet); 
+  color: var(--pearl); 
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.logout-button:hover {
+  background-color: var(--fawn); 
+}
+
+.icon-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px; 
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s; /* Transizioni per l'effetto */
+}
+
+.icon {
+  font-size: 50px; /* Aumenta la dimensione dell'icona */
+  color: var(--bittersweet);
+}
+
+.icon-container p {
+  margin-top: 0px;
+  color: var(--bittersweet);
+  font-weight: bold;
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.posts-list .post-item {
+  margin-bottom: 20px;
+  border: 1px solid var(--fawn);
+  padding: 10px;
+  border-radius: 8px;
+  background-color: var(--pearl);
+  width: 600px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.posts-list img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.posts-list audio {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  cursor: pointer;
+  font-size: 1.5em;
+  color: #333;
+}

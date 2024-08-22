@@ -1,0 +1,85 @@
+.profile-container {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.home-icon {
+  cursor: pointer;
+  color: #333;
+}
+
+.posts-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 80px;
+}
+
+.profile-post-item {
+  background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-post-item img {
+  width: 100%;
+  height: 200px; /* Imposta un'altezza fissa per le immagini */
+  object-fit: cover; /* Adatta le immagini troppo grandi */
+  border-radius: 8px;
+}
+
+.profile-post-item audio {
+  width: 300px; /* Imposta la larghezza fissa desiderata */
+  margin-bottom: 10px;
+}
+
+.post-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+}
+
+.delete-icon {
+  cursor: pointer;
+  color: #ff4d4d;
+}
+.home-bar {
+  background-color: var(--beige); /* Colore di sfondo beige */
+  position: fixed; /* Fissa la barra in alto */
+  top: 0;
+  width: 100%; /* La barra copre l'intera larghezza */
+  z-index: 1000; /* Assicura che la barra sia sopra altri contenuti */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra leggera */
+  display: flex; /* Utilizza flexbox per il layout */
+  align-items: center; /* Centra verticalmente gli elementi */
+  justify-content: space-between; /* Spazia gli elementi */
+  padding: 0 20px; /* Padding interno */
+  height: 60px; /* Altezza della barra */
+  box-sizing: border-box; /* Assicura che il padding sia incluso nella larghezza */
+}

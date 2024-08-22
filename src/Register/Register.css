@@ -1,0 +1,125 @@
+:root {
+  --fawn: #f0b67fff;
+  --bittersweet: #fe5f55ff;
+  --pearl: #d6d1b1ff;
+  --tea-green: #c7efcfff;
+  --beige: #eef5dbff;
+}
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: whitesmoke;
+  padding: 20px;
+}
+
+
+.login-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.login-form input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-button, .register-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-button {
+  background-color: var(--bittersweet);
+  color:whitesmoke;
+}
+
+.register-button {
+  background-color: var(--bittersweet);
+  color: whitesmoke;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+input {
+  padding: 1rem;
+  border: none;
+  border-bottom: 2px solid var(--tea-green);
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+button:hover {
+  background-color: darken(var(--bittersweet), 10%);
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+.homepage-header {
+background-color: var(--beige); /* Colore di sfondo nero */
+position: fixed; /* Fissa la barra in alto */
+top: 0;
+width: 100%; /* La barra copre l'intera larghezza */
+z-index: 1000; /* Assicura che la barra sia sopra altri contenuti */
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra leggera */
+}
+
+.login-button,
+.register-button {
+  width: 49%; /* O altra percentuale per adattare la larghezza */
+}
+
