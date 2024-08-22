@@ -1,11 +1,114 @@
-import React, { useRef } from 'react';
-import {auth } from '../services/firebaseConfig';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
+import React, { useEffect, useState, useRef } from 'react';
+import { db, auth } from '../services/firebaseConfig';
+import { ref, onValue, query, orderByChild, update } from 'firebase/database';
+import { FaHeart, FaRegHeart } from 'react-icons/fa'; // Importa le icone del cuore
 import './PostList.css';
 
-const PostsList = ({ posts, users, handleLike, handlePlay, handleError, addComment, commentText, setCommentText }) => {
+const PostsList = () => {
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState({}); // Stato per memorizzare gli username
+
   const audioRefs = useRef({});
   const currentUser = auth.currentUser;
+  const [commentText, setCommentText] = useState('');
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const usersRef = ref(db, 'users');
+      onValue(usersRef, (snapshot) => {
+        const data = snapshot.val();
+        setUsers(data || {});
+      });
+    };
+
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const postsRef = query(ref(db, 'posts'), orderByChild('createdAt'));
+        onValue(postsRef, (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            const postsData = Object.keys(data)
+              .map(key => ({ id: key, ...data[key] }))
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setPosts(postsData);
+          } else {
+            setPosts([]);
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching posts: ', error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const handlePlay = (index) => {
+    Object.values(audioRefs.current).forEach((audio, i) => {
+      if (i !== index && audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    });
+    if (audioRefs.current[index]) {
+      audioRefs.current[index].play().catch(error => {
+        console.error('Error playing audio:', error);
+      });
+    }
+  };
+
+  const handleError = (event) => {
+    const error = event.target.error;
+    console.log(error);
+  };
+
+  const handleLike = async (postId, currentLikes, likedUsers = []) => {
+    if (!currentUser) return;
+
+    const userId = currentUser.uid;
+    const hasLiked = likedUsers.includes(userId);
+
+    try {
+      const postRef = ref(db, `posts/${postId}`);
+
+      if (hasLiked) {
+        const updatedLikedUsers = likedUsers.filter(id => id !== userId);
+        await update(postRef, {
+          likes: Math.max(currentLikes - 1, 0),
+          likedUsers: updatedLikedUsers,
+        });
+      } else {
+        await update(postRef, {
+          likes: currentLikes + 1,
+          likedUsers: [...likedUsers, userId],
+        });
+      }
+    } catch (error) {
+      console.error('Error updating likes:', error);
+    }
+  };
+
+  const addComment = async (postId) => {
+    if (!commentText.trim()) return;
+
+    const userId = currentUser.uid;
+
+    const commentId = Date.now().toString(); 
+
+    try {
+      await update(ref(db, `posts/${postId}/comments/${commentId}`), {
+        userId,
+        text: commentText,
+      });
+      setCommentText(''); // Resetta il campo di input
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  };
 
   return (
     <div className="posts-container">
