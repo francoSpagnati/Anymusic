@@ -14,31 +14,34 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const audioRefs = useRef({});
-
+  const [userName, setUserName] = useState('');
   useEffect(() => {
-    const fetchUserPosts = async () => {
+    const fetchUserData = async () => {
       setLoading(true);
-
+      
       const user = auth.currentUser;
-
+  
       if (!user) {
         setError('User is not authenticated');
         setLoading(false);
         return;
       }
-
+  
       try {
+        // Recupera i post dell'utente
         const postsRef = query(
           ref(db, 'posts'),
           orderByChild('userId'),
           equalTo(user.uid)
         );
-
+  
         onValue(postsRef, (snapshot) => {
           const data = snapshot.val();
           if (data) {
             const userPosts = Object.keys(data).map(key => ({ id: key, ...data[key] }));
             setPosts(userPosts);
+            // Supponiamo che il nome utente sia lo stesso in tutti i post, prendi il primo
+            setUserName(userPosts[0]?.userName || 'User');
           } else {
             setPosts([]);
           }
@@ -49,9 +52,10 @@ const Profile = () => {
         setLoading(false);
       }
     };
-
-    fetchUserPosts();
+  
+    fetchUserData();
   }, []);
+  
 
   const handleDelete = async (postId) => {
     try {
@@ -106,13 +110,19 @@ const Profile = () => {
       <header className="home-bar">
         <h1>AnyMusic</h1>
         <div className="nav-icons">
-        <button className="back-button" onClick={handleHome}>Torna alla home</button>
+          <button className="back-button" onClick={handleHome}>Torna alla home</button>
           <div className="left-buttons">
             <FaMusic className="icon" onClick={goToPost} title="Post" />
           </div>
           <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
       </header>
+      
+      {/* Messaggio di benvenuto */}
+      <div className="welcome-message">
+        <h2>Benvenuto, {userName}!</h2>
+      </div>
+  
       <div className="posts-list">
         {posts.length > 0 ? (
           posts.map((post, index) => (
@@ -145,7 +155,7 @@ const Profile = () => {
         )}
       </div>
     </div>
-  );
+  );  
 };
 
 export default Profile;

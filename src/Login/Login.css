@@ -109,18 +109,34 @@
     width: 100%;
     margin-top: 1rem;
 }
-  .homepage-header {
-  background-color: var(--beige); /* Colore di sfondo nero */
+.home-bar {
+  background-color: var(--beige); /* Colore di sfondo beige */
   position: fixed; /* Fissa la barra in alto */
   top: 0;
   width: 100%; /* La barra copre l'intera larghezza */
   z-index: 1000; /* Assicura che la barra sia sopra altri contenuti */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra leggera */
-  }
+  display: flex; /* Utilizza flexbox per il layout */
+  align-items: center; /* Centra verticalmente gli elementi */
+  justify-content: space-between; /* Spazia gli elementi */
+  padding: 0 20px; /* Padding interno */
+  height: 60px; /* Altezza della barra */
+  box-sizing: border-box; /* Assicura che il padding sia incluso nella larghezza */
+}
   
   .login-button,
   .register-button {
     width: 49%; /* O altra percentuale per adattare la larghezza */
   }
-
-  
+  .google-login-container {
+    margin-top: 1rem;
+  }
+  .google-login-button {
+    color: whitesmoke;
+    text-align: center;
+    background-attachment: fixed;
+    background-color: var(--bittersweet);
+  }
+  .google-login-button:hover {
+    background-color: darken(var(--bittersweet), 10%);
+  }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../services/firebaseConfig';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../services/firebaseConfig';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { ref, set } from 'firebase/database';
 import './Login.css';
 
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const provider = new GoogleAuthProvider();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,13 +27,38 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      
+      // Estrai la parte prima della chiocciola dall'email per ottenere il nome utente
+      const username = user.email.split('@')[0];
+      
+      // Salva l'utente nel database
+      await set(ref(db, 'users/' + user.uid), {
+        name: username,
+        email: user.email,
+      });
+      
+      console.log('User logged in with Google and added to database successfully');
+      navigate('/home');
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
   const goToRegister = () => {
     navigate('/register');
   };
 
   return (
     <div className="login-page">
-      <header className="homepage-header">
+      <header className="home-bar">
         <h1>AnyMusic</h1>
       </header>
       <div className="login-container">
@@ -67,6 +94,19 @@ const Login = () => {
                 <button type="button" onClick={goToRegister} className="register-button">Register</button>
               </>
             )}
+          </div>
+          <hr className="divider" />
+          <div className="or-container">
+          <center>
+            <span className="or-text">OR</span>
+            </center>
+          </div>
+          <div className="google-login-container">
+          <center>
+            <button type="button" onClick={handleGoogleLogin} className="google-login-button">
+              Login with Google
+            </button>
+            </center>
           </div>
         </form>
       </div>
