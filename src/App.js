@@ -6,6 +6,8 @@ import Home from './Home/Home';
 import Profile from './Profile/Profile';
 import ProtectedRoute from './ProtectedRoute';
 import Post from './Post/Post';
+import OfflinePage from './OfflinePage'; // Importa il componente OfflinePage
+
 function App() {
   return (
     <Router>
@@ -22,6 +24,7 @@ function App() {
             </ProtectedRoute>
           } 
         />
+        <Route path="*" element={<OfflinePage />} />
       </Routes>
     </Router>
   );

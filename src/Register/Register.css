@@ -64,16 +64,13 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.login-button {
+  color: whitesmoke; /* Set color for login and register buttons */
+  width: 49%; 
   background-color: var(--bittersweet);
-  color:whitesmoke;
+  transition: background-color 0.3s;
 }
-
-.register-button {
-  background-color: var(--bittersweet);
-  color: whitesmoke;
+.login-button:hover,.register-button:hover{
+  background-color: #d9463d; /* New color on hover */
 }
 
 .spinner {
@@ -116,10 +113,5 @@ top: 0;
 width: 100%; /* La barra copre l'intera larghezza */
 z-index: 1000; /* Assicura che la barra sia sopra altri contenuti */
 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra leggera */
-}
-
-.login-button,
-.register-button {
-  width: 49%; /* O altra percentuale per adattare la larghezza */
 }
 
