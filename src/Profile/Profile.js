@@ -4,7 +4,8 @@ import { auth, db } from '../services/firebaseConfig';
 import { ref, onValue, query, orderByChild, equalTo, remove } from 'firebase/database';
 import { signOut } from 'firebase/auth';
 import {  AiFillDelete } from 'react-icons/ai'; // Importa le icone
-import {FaMusic} from 'react-icons/fa'; 
+import { IoHomeSharp } from "react-icons/io5";
+import {FaUser,FaMusic} from 'react-icons/fa'; 
 
 import './Profile.css';
 
@@ -104,14 +105,18 @@ const Profile = () => {
   const handleHome = ()=>{
     navigate('/home');
   }
+  const goToProfile = () => {
+    navigate('/profile'); 
+  };
 
   return (
     <div className="profile-container">
       <header className="home-bar">
         <h1>AnyMusic</h1>
         <div className="nav-icons">
-          <button className="back-button" onClick={handleHome}>Torna alla home</button>
           <div className="left-buttons">
+            <IoHomeSharp  className="icon" onClick={handleHome} title='Torna alla home'/>
+            <FaUser className='icon' onClick={goToProfile} title='vai al profilo'/>
             <FaMusic className="icon" onClick={goToPost} title="Post" />
           </div>
           <button className="logout-button" onClick={handleLogout}>Logout</button>
@@ -146,12 +151,12 @@ const Profile = () => {
                 onError={(event) => console.error('Error playing audio:', event.target.error)}
               >
                 <source src={post.trackUrl} type="audio/mp3" />
-                Your browser does not support the audio element.
+                Il tuo browser non supporta questo formato audio
               </audio>
             </div>
           ))
         ) : (
-          <p>No posts yet</p>
+          <p>Non hai ancora postato</p>
         )}
       </div>
     </div>

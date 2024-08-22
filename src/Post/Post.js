@@ -5,7 +5,8 @@ import { storage, db, auth } from '../services/firebaseConfig';
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { ref as dbRef, set, get } from 'firebase/database';
 import { v4 as uuidv4 } from 'uuid'; // Importa la libreria uuid
-import { FaUser} from 'react-icons/fa'; 
+import { IoHomeSharp } from "react-icons/io5";
+import {FaUser,FaMusic} from 'react-icons/fa'; 
 import './Post.css'; // Assicurati di avere questo file CSS per lo stile
 
 const PostTrack = () => {
@@ -91,14 +92,18 @@ const PostTrack = () => {
       console.error('Error logging out:', error.message);
     }
   };
+  const goToPost = () => {
+    navigate('/post'); 
+  };
   return (
     <div className="post-page">
     <header className="home-bar">
         <h1>AnyMusic</h1>
         <div className="nav-icons">
-        <button className="back-button" onClick={handleHome}>Torna alla home</button>
           <div className="left-buttons">
-            <FaUser className="icon" onClick={goToProfile} title="Profile" />
+            <IoHomeSharp  className="icon" onClick={handleHome} title='Torna alla home'/>
+            <FaUser className='icon' onClick={goToProfile} title='vai al profilo'/>
+            <FaMusic className="icon" onClick={goToPost} title="Post" />
           </div>
           <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
