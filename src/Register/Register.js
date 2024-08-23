@@ -26,7 +26,7 @@ const Register = () => {
         email,
       });
 
-      console.log('User registered successfully');
+      console.log('User registrato con successo');
       navigate('/home');
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {

@@ -23,14 +23,14 @@ const PostTrack = () => {
     setLoading(true);
 
     if (!auth.currentUser) {
-      setMessage('User must be authenticated to post.');
+      setMessage('Devi essere autenticato per postare');
       setLoading(false);
       return;
     }
 
     try {
       if (!track || !image || !trackName) {
-        throw new Error('Track, image file, or track name is missing.');
+        throw new Error('Traccia, immagine, o nome della traccia mancante');
       }
 
       // Genera identificatori unici per l'immagine e la traccia
@@ -68,11 +68,11 @@ const PostTrack = () => {
         likedUsers: [], 
       });
 
-      setMessage('Post added successfully');
+      setMessage('Post aggiunto correttamente');
       setTimeout(() => navigate('/home'), 2000);
     } catch (error) {
-      console.error('Error adding post:', error);
-      setMessage(`Error adding post: ${error.message}`);
+      console.error('Errore aggiunta post:', error);
+      setMessage(`Errore nell'aggiungere il post prova nuovamente: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -86,10 +86,10 @@ const PostTrack = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth); 
-      console.log('User logged out successfully');
+      console.log('user loggato correttamente');
       navigate('/'); 
     } catch (error) {
-      console.error('Error logging out:', error.message);
+      console.error('Errore di logout:', error.message);
     }
   };
   const goToPost = () => {
@@ -111,7 +111,7 @@ const PostTrack = () => {
     <div className="post-track-container">
       <h2>Post a Track</h2>
       <form onSubmit={handlePost} className="post-track-form">
-        <label htmlFor="trackName">Track Name</label>
+        <label htmlFor="trackName">Nome della tua traccia</label>
         <input
           type="text"
           id="trackName"
@@ -120,7 +120,7 @@ const PostTrack = () => {
           required
         />
 
-        <label htmlFor="track">Track (Audio File)</label>
+        <label htmlFor="track">Carica la tua traccia (File audio)</label>
         <input
           type="file"
           id="track"
@@ -129,7 +129,7 @@ const PostTrack = () => {
           required
         />
 
-        <label htmlFor="image">Image</label>
+        <label htmlFor="image">Carica la tua immagine di copertina</label>
         <input
           type="file"
           id="image"
@@ -138,7 +138,7 @@ const PostTrack = () => {
           required
         />
 
-        <label htmlFor="description">Description</label>
+        <label htmlFor="description">Scrivi una descrizione per la tua traccia</label>
         <textarea
           id="description"
           value={description}

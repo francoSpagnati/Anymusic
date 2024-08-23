@@ -23,7 +23,7 @@ const Profile = () => {
       const user = auth.currentUser;
   
       if (!user) {
-        setError('User is not authenticated');
+        setError('User non autenticato');
         setLoading(false);
         return;
       }
@@ -49,7 +49,7 @@ const Profile = () => {
           setLoading(false);
         });
       } catch (error) {
-        setError('Error fetching posts: ' + error.message);
+        setError('Errore caricamento post: ' + error.message);
         setLoading(false);
       }
     };
@@ -63,7 +63,7 @@ const Profile = () => {
       await remove(ref(db, 'posts/' + postId));
       setPosts(posts.filter(post => post.id !== postId));
     } catch (error) {
-      console.error('Error deleting post: ', error);
+      console.error('Errore cancellazione post ', error);
     }
   };
 
@@ -78,7 +78,7 @@ const Profile = () => {
     // Riproduce la traccia selezionata
     if (audioRefs.current[index]) {
       audioRefs.current[index].play().catch(error => {
-        console.error('Error playing audio:', error);
+        console.error('Errore riproduzione audio', error);
       });
     }
   };
@@ -96,10 +96,10 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth); 
-      console.log('User logged out successfully');
+      console.log('User logout con successo');
       navigate('/'); 
     } catch (error) {
-      console.error('Error logging out:', error.message);
+      console.error('Errore di logout:', error.message);
     }
   };
   const handleHome = ()=>{
@@ -156,7 +156,7 @@ const Profile = () => {
             </div>
           ))
         ) : (
-          <p>Non hai ancora postato</p>
+          <p> <center>Non hai ancora postato</center></p>
         )}
       </div>
     </div>

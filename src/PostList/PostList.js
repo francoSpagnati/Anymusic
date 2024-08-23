@@ -40,7 +40,7 @@ const PostsList = () => {
           }
         });
       } catch (error) {
-        console.error('Error fetching posts: ', error);
+        console.error('Errore caricamento post', error);
       }
     };
 
@@ -56,7 +56,7 @@ const PostsList = () => {
     });
     if (audioRefs.current[index]) {
       audioRefs.current[index].play().catch(error => {
-        console.error('Error playing audio:', error);
+        console.error('Errore riproduzione audio', error);
       });
     }
   };
@@ -88,7 +88,7 @@ const PostsList = () => {
         });
       }
     } catch (error) {
-      console.error('Error updating likes:', error);
+      console.error('Errore aggiornamento like', error);
     }
   };
 
@@ -104,9 +104,9 @@ const PostsList = () => {
         userId,
         text: commentText,
       });
-      setCommentText(''); // Resetta il campo di input
+      setCommentText(''); 
     } catch (error) {
-      console.error('Error adding comment:', error);
+      console.error('Errore aggiunta commento', error);
     }
   };
 
@@ -131,7 +131,7 @@ const PostsList = () => {
               onError={handleError}
             >
               <source src={post.trackUrl} type="audio/mp3" />
-              Your browser does not support the audio element.
+              Il tuo browser non supporta questo formato audio...
             </audio>
             <p className="post-description">{post.description}</p>
             <div className="post-footer">

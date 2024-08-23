@@ -19,7 +19,7 @@ const Login = () => {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log('User logged in successfully');
+      console.log('User loggato con successo');
       navigate('/home');
     } catch (error) {
       setError(error.message);
@@ -34,16 +34,15 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // Estrai la parte prima della chiocciola dall'email per ottenere il nome utente
       const username = user.email.split('@')[0];
 
-      // Salva l'utente nel database
+      // Salvataggio
       await set(ref(db, 'users/' + user.uid), {
         name: username,
         email: user.email,
       });
 
-      console.log('User logged in with Google and added to database successfully');
+      console.log('user loggato con google e salvato correttamente sul db');
       navigate('/home');
     } catch (error) {
       setError(error.message);
@@ -54,7 +53,7 @@ const Login = () => {
 
   const handlePasswordReset = async () => {
     if (!email) {
-      setError('Please enter your email address to reset your password.');
+      setError('Inserisci la tua mail per resettare la password');
       return;
     }
 
@@ -100,7 +99,7 @@ const Login = () => {
             className="password-input"
           />
           {error && <p className="error-message">{error}</p>}
-          {resetEmailSent && <p className="success-message">Password reset email sent! Check your inbox.</p>}
+          {resetEmailSent && <p className="success-message">Password Reset inviata per mail controlla la tua casella di posta</p>}
           <div className="button-container">
             {loading ? (
               <div className="spinner"></div>
