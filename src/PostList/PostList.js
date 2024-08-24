@@ -7,10 +7,10 @@ import './PostList.css';
 const PostsList = () => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState({}); // Stato per memorizzare gli username
+  const [commentTexts, setCommentTexts] = useState({}); // Stato per memorizzare il testo del commento per ogni post
 
   const audioRefs = useRef({});
   const currentUser = auth.currentUser;
-  const [commentText, setCommentText] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -92,19 +92,29 @@ const PostsList = () => {
     }
   };
 
+  const handleCommentChange = (postId, text) => {
+    setCommentTexts(prevState => ({
+      ...prevState,
+      [postId]: text
+    }));
+  };
+
   const addComment = async (postId) => {
+    const commentText = commentTexts[postId] || '';
     if (!commentText.trim()) return;
 
     const userId = currentUser.uid;
-
-    const commentId = Date.now().toString(); 
+    const commentId = Date.now().toString();
 
     try {
       await update(ref(db, `posts/${postId}/comments/${commentId}`), {
         userId,
         text: commentText,
       });
-      setCommentText(''); 
+      setCommentTexts(prevState => ({
+        ...prevState,
+        [postId]: ''
+      })); 
     } catch (error) {
       console.error('Errore aggiunta commento', error);
     }
@@ -115,6 +125,7 @@ const PostsList = () => {
       {posts.map((post, index) => {
         const likedUsers = post.likedUsers || [];
         const hasLiked = likedUsers.includes(currentUser?.uid);
+        const commentText = commentTexts[post.id] || '';
 
         return (
           <div key={post.id} className="post-item">
@@ -153,7 +164,7 @@ const PostsList = () => {
               <input
                 type="text"
                 value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
+                onChange={(e) => handleCommentChange(post.id, e.target.value)}
                 placeholder="Aggiungi un commento..."
               />
               <button onClick={() => addComment(post.id)}>Invia</button>
