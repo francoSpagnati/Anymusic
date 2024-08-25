@@ -8,6 +8,7 @@ const PostsList = () => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState({}); // Stato per memorizzare gli username
   const [commentTexts, setCommentTexts] = useState({}); // Stato per memorizzare il testo del commento per ogni post
+  const previousPostCount = useRef(0); // Per tracciare il numero di post precedenti
 
   const audioRefs = useRef({});
   const currentUser = auth.currentUser;
@@ -34,6 +35,13 @@ const PostsList = () => {
             const postsData = Object.keys(data)
               .map(key => ({ id: key, ...data[key] }))
               .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+              // Mostra la notifica se c'è un nuovo post
+            if (previousPostCount.current < postsData.length) {
+              const newPost = postsData[0]; 
+              showNotification(newPost);
+            }
+
+            previousPostCount.current = postsData.length;
             setPosts(postsData);
           } else {
             setPosts([]);
@@ -117,6 +125,31 @@ const PostsList = () => {
       })); 
     } catch (error) {
       console.error('Errore aggiunta commento', error);
+    }
+  };
+  const showNotification = (post) => {
+    if (!("Notification" in window)) {
+      alert("Questo browser non supporta le notifiche desktop");
+    } else if (Notification.permission === "granted") {
+      new Notification("Nuovo post!", {
+        lang: "it",
+        body: `Un nuovo post è stato creato da ${post.userName}: ${post.trackName}`,
+        icon: "icon_url.png",
+        vibrate: [200, 100, 200],
+        image: post.imageUrl,
+      });
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          new Notification("Nuovo post!", {
+            lang: "it",
+            body: `Un nuovo post è stato creato da ${post.userName}: ${post.trackName}`,
+            icon: "icon_url.png",
+            vibrate: [200, 100, 200],
+            image: post.imageUrl,
+          });
+        }
+      });
     }
   };
 
