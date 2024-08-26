@@ -3,7 +3,7 @@ import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { storage, db, auth } from '../services/firebaseConfig';
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { ref as dbRef, set, get,update,increment } from 'firebase/database';
+import { ref as dbRef, set, get } from 'firebase/database';
 import { v4 as uuidv4 } from 'uuid'; // Importa la libreria uuid
 import { IoHomeSharp } from "react-icons/io5";
 import {FaUser,FaMusic} from 'react-icons/fa'; 
@@ -17,7 +17,6 @@ const PostTrack = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -69,12 +68,6 @@ const PostTrack = () => {
         likedUsers: [], 
       });
 
-      const counterRef = dbRef(db, 'postCounter');
-      await update(counterRef, {
-        count: increment(1),
-      });
-
-      
       setMessage('Post aggiunto correttamente');
       setTimeout(() => navigate('/home'), 2000);
     } catch (error) {

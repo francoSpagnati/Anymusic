@@ -1,19 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { db, auth } from '../services/firebaseConfig';
 import { ref, onValue, query, orderByChild, update } from 'firebase/database';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; // Importa le icone del cuore
+import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
 import './PostList.css';
 
 const PostsList = () => {
   const [posts, setPosts] = useState([]);
-  const [users, setUsers] = useState({}); // Stato per memorizzare gli username
-  const [commentTexts, setCommentTexts] = useState({}); // Stato per memorizzare il testo del commento per ogni post
-
-  const [postCounter, setPostCounter] = useState(0);
-  const [prevPostCounter, setPrevPostCounter] = useState(0); // Stato per memorizzare il contatore precedente
-
+  const [users, setUsers] = useState({}); 
+  const [commentTexts, setCommentTexts] = useState({});
   const audioRefs = useRef({});
   const currentUser = auth.currentUser;
+  const previousPostsRef = useRef([]);
+
+  useEffect(() => {
+    // Richiedi il permesso per le notifiche
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -37,7 +41,15 @@ const PostsList = () => {
             const postsData = Object.keys(data)
               .map(key => ({ id: key, ...data[key] }))
               .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            // Confronta il nuovo stato dei post con il precedente per rilevare nuovi post
+            if (previousPostsRef.current.length > 0 && postsData.length > previousPostsRef.current.length) {
+              const newPost = postsData[0];
+              showNotification(newPost);
+            }
+
             setPosts(postsData);
+            previousPostsRef.current = postsData; // Aggiorna il riferimento ai post precedenti
           } else {
             setPosts([]);
           }
@@ -49,22 +61,15 @@ const PostsList = () => {
 
     fetchPosts();
   }, []);
-   // Effetto per monitorare il contatore dei post
-   useEffect(() => {
-    const counterRef = ref(db, 'postCounter/count');
-    onValue(counterRef, (snapshot) => {
-      const count = snapshot.val();
-      setPostCounter(count);
-    });
-  }, []);
-  useEffect(() => {
-    if (prevPostCounter !== 0 && postCounter > prevPostCounter) {
-      const newPost = posts[0]; // Ottieni l'ultimo post aggiunto (dovrebbe essere il primo nella lista)
-      showNotification(newPost);
-    }
-    setPrevPostCounter(postCounter);
-  }, [postCounter, prevPostCounter, posts]);
 
+  const showNotification = (newPost) => {
+    if (Notification.permission === "granted") {
+      new Notification("Nuovo post!", {
+        body: `${newPost.userName} ha pubblicato un nuovo post: ${newPost.trackName}`,
+        icon: newPost.imageUrl
+      });
+    }
+  };
 
   const handlePlay = (index) => {
     Object.values(audioRefs.current).forEach((audio, i) => {
@@ -136,31 +141,6 @@ const PostsList = () => {
       })); 
     } catch (error) {
       console.error('Errore aggiunta commento', error);
-    }
-  };
-  const showNotification = (post) => {
-    if (!("Notification" in window)) {
-      alert("Questo browser non supporta le notifiche desktop");
-    } else if (Notification.permission === "granted") {
-      new Notification("Nuovo post!", {
-        lang: "it",
-        body: `Un nuovo post è stato creato da ${post.userName}: ${post.trackName}`,
-        icon: "icon_url.png",
-        vibrate: [200, 100, 200],
-        image: post.imageUrl,
-      });
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          new Notification("Nuovo post!", {
-            lang: "it",
-            body: `Un nuovo post è stato creato da ${post.userName}: ${post.trackName}`,
-            icon: "icon_url.png",
-            vibrate: [200, 100, 200],
-            image: post.imageUrl,
-          });
-        }
-      });
     }
   };
 
