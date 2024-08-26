@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../services/firebaseConfig';
-import { ref, onValue, query, orderByChild, equalTo, remove } from 'firebase/database';
+import { ref, onValue, query, orderByChild, equalTo, remove, update, get } from 'firebase/database';
 import { signOut } from 'firebase/auth';
 import {  AiFillDelete } from 'react-icons/ai'; // Importa le icone
 import { IoHomeSharp } from "react-icons/io5";
@@ -62,6 +62,11 @@ const Profile = () => {
     try {
       await remove(ref(db, 'posts/' + postId));
       setPosts(posts.filter(post => post.id !== postId));
+      // Riduci il contatore dei post di 1
+    const counterRef = ref(db, 'postCounter/count');
+    const snapshot = await get(counterRef);
+    const currentCount = snapshot.val();
+    await update(counterRef, { count: Math.max(currentCount - 1, 0) });
     } catch (error) {
       console.error('Errore cancellazione post ', error);
     }

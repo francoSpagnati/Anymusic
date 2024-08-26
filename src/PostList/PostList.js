@@ -8,7 +8,9 @@ const PostsList = () => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState({}); // Stato per memorizzare gli username
   const [commentTexts, setCommentTexts] = useState({}); // Stato per memorizzare il testo del commento per ogni post
-  const previousPostCount = useRef(0); // Per tracciare il numero di post precedenti
+
+  const [postCounter, setPostCounter] = useState(0);
+  const [prevPostCounter, setPrevPostCounter] = useState(0); // Stato per memorizzare il contatore precedente
 
   const audioRefs = useRef({});
   const currentUser = auth.currentUser;
@@ -35,13 +37,6 @@ const PostsList = () => {
             const postsData = Object.keys(data)
               .map(key => ({ id: key, ...data[key] }))
               .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-              // Mostra la notifica se c'è un nuovo post
-            if (previousPostCount.current < postsData.length) {
-              const newPost = postsData[0]; 
-              showNotification(newPost);
-            }
-
-            previousPostCount.current = postsData.length;
             setPosts(postsData);
           } else {
             setPosts([]);
@@ -54,6 +49,22 @@ const PostsList = () => {
 
     fetchPosts();
   }, []);
+   // Effetto per monitorare il contatore dei post
+   useEffect(() => {
+    const counterRef = ref(db, 'postCounter/count');
+    onValue(counterRef, (snapshot) => {
+      const count = snapshot.val();
+      setPostCounter(count);
+    });
+  }, []);
+  useEffect(() => {
+    if (prevPostCounter !== 0 && postCounter > prevPostCounter) {
+      const newPost = posts[0]; // Ottieni l'ultimo post aggiunto (dovrebbe essere il primo nella lista)
+      showNotification(newPost);
+    }
+    setPrevPostCounter(postCounter);
+  }, [postCounter, prevPostCounter, posts]);
+
 
   const handlePlay = (index) => {
     Object.values(audioRefs.current).forEach((audio, i) => {
