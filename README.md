@@ -11,4 +11,7 @@ ci sono 2 account per provare le feature :
 Oppure è possibile registrarsi nel sistema con una mail personale
 
 L'applicazione invierà anche una notifica quando qualcuno aggiunge un post
+# Per runnare
+L'applicazione è stata scritta con il framework React in Javascript, per runnare l'app assicurarsi di avere installato npm e le dipendenze di React e poi runnare il comando:
+npm run build
 
