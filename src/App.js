@@ -6,6 +6,7 @@ import Home from './Home/Home';
 import Profile from './Profile/Profile';
 import ProtectedRoute from './ProtectedRoute';
 import Post from './Post/Post';
+import UserProfile from './UserProfile/UserProfile'; // Importa il componente UserProfile
 import OfflinePage from './OfflinePage'; // Importa il componente OfflinePage
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/register" element={isOnline ? <Register /> : <OfflinePage />} />
         <Route path="/profile" element={isOnline ? <Profile /> : <OfflinePage />} />
         <Route path="/post" element={isOnline ? <Post /> : <OfflinePage />} />
+        <Route path="/profile/:userId" element={isOnline ? <UserProfile /> : <OfflinePage />} />
         <Route
           path="/home"
           element={

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { db, auth } from '../services/firebaseConfig';
 import { ref, onValue, query, orderByChild, update } from 'firebase/database';
 import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import './PostList.css';
 
 const PostsList = () => {
@@ -11,6 +12,7 @@ const PostsList = () => {
   const audioRefs = useRef({});
   const currentUser = auth.currentUser;
   const previousPostsRef = useRef([]);
+  const navigate = useNavigate(); // Inizializza useNavigate
 
   useEffect(() => {
     // Richiedi il permesso per le notifiche
@@ -129,10 +131,12 @@ const PostsList = () => {
 
     const userId = currentUser.uid;
     const commentId = Date.now().toString();
+    const userName = currentUser.displayName || 'Utente sconosciuto';
 
     try {
       await update(ref(db, `posts/${postId}/comments/${commentId}`), {
         userId,
+        userName,
         text: commentText,
       });
       setCommentTexts(prevState => ({
@@ -141,6 +145,13 @@ const PostsList = () => {
       })); 
     } catch (error) {
       console.error('Errore aggiunta commento', error);
+    }
+  };
+  const handleUserClick = (userId) => {
+    if (userId === currentUser.uid) {
+      navigate('/profile');
+    } else {
+      navigate(`/profile/${userId}`); 
     }
   };
 
@@ -154,7 +165,12 @@ const PostsList = () => {
         return (
           <div key={post.id} className="post-item">
             <div className="post-header">
-              <div className="user-name">{post.userName}</div>
+            <div 
+                className="user-name" 
+                onClick={() => handleUserClick(post.userId)} 
+              >
+                {post.userName}
+              </div>
               <div className="track-name">{post.trackName}</div>
             </div>
             <img src={post.imageUrl} alt="Post" className="post-image" />
