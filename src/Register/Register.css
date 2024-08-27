@@ -64,13 +64,13 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  color: whitesmoke; /* Set color for login and register buttons */
+  color: whitesmoke; 
   width: 49%; 
   background-color: var(--bittersweet);
   transition: background-color 0.3s;
 }
 .login-button:hover,.register-button:hover{
-  background-color: #d9463d; /* New color on hover */
+  background-color: #d9463d; 
 }
 
 .spinner {
@@ -107,11 +107,10 @@ button:hover {
   margin-top: 1rem;
 }
 .homepage-header {
-background-color: var(--beige); /* Colore di sfondo nero */
-position: fixed; /* Fissa la barra in alto */
+background-color: var(--beige); 
+position: fixed; 
 top: 0;
-width: 100%; /* La barra copre l'intera larghezza */
-z-index: 1000; /* Assicura che la barra sia sopra altri contenuti */
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra leggera */
+width: 100%; 
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 

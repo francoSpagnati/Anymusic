@@ -1,21 +1,21 @@
 .home-container {
   background-color: white;
-  padding-top: 80px; /* Aggiunge spazio per la barra di navigazione */
+  padding-top: 80px; 
 }
 
 .home-bar {
-  background-color: var(--beige); /* Colore di sfondo beige */
-  position: fixed; /* Fissa la barra in alto */
+  background-color: var(--beige); 
+  position: fixed;
   top: 0;
-  width: 100%; /* La barra copre l'intera larghezza */
-  z-index: 1000; /* Assicura che la barra sia sopra altri contenuti */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra leggera */
-  display: flex; /* Utilizza flexbox per il layout */
-  align-items: center; /* Centra verticalmente gli elementi */
-  justify-content: space-between; /* Spazia gli elementi */
-  padding: 0 20px; /* Padding interno */
-  height: 60px; /* Altezza della barra */
-  box-sizing: border-box; /* Assicura che il padding sia incluso nella larghezza */
+  width: 100%; 
+  z-index: 1000; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 0 20px; 
+  height: 60px; 
+  box-sizing: border-box; 
 }
 
 .home-bar .left-buttons {
@@ -24,11 +24,11 @@
 }
 
 .home-bar .left-buttons .icon {
-  margin-right: 20px; /* Spazio tra le icone */
+  margin-right: 20px;
 }
 
 .home-bar .left-buttons .logout-button {
-  margin-left: 20px; /* Spazio tra l'ultima icona e il pulsante logout */
+  margin-left: 20px;
 }
 
 .logout-button {
@@ -57,11 +57,11 @@
   align-items: center;
   margin: 0 10px; 
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s; /* Transizioni per l'effetto */
+  transition: transform 0.3s, box-shadow 0.3s; 
 }
 
 .icon {
-  font-size: 50px; /* Aumenta la dimensione dell'icona */
+  font-size: 50px; 
   color: var(--bittersweet);
 }
 

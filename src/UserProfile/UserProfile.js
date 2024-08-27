@@ -1,3 +1,4 @@
+//import
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { db, auth } from '../services/firebaseConfig';
@@ -38,7 +39,7 @@ const UserProfile = () => {
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setUserPosts(postsData);
 
-          // Fetch authors of comments
+          // Carico l'autore dei commenti dal db
           postsData.forEach(post => {
             if (post.comments) {
               Object.values(post.comments).forEach(comment => {
@@ -52,9 +53,9 @@ const UserProfile = () => {
       });
     };
 
+    //carico l'username
     const fetchUserName = async (userId) => {
-      if (commentAuthors[userId]) return; // Evita di fare fetch se già esiste
-
+      if (commentAuthors[userId]) return; 
       const userRef = ref(db, `users/${userId}`);
       get(userRef).then((snapshot) => {
         if (snapshot.exists()) {
@@ -74,6 +75,7 @@ const UserProfile = () => {
     fetchUserData();
     fetchUserPosts();
   }, [userId, commentAuthors]);
+
 
   const handlePlay = (index) => {
     Object.values(audioRefs.current).forEach((audio, i) => {
@@ -135,17 +137,21 @@ const UserProfile = () => {
         text: commentText,
       });
       setCommentTexts(prevState => ({
+
         ...prevState,
         [postId]: ''
+
       })); 
     } catch (error) {
+
       console.error('Errore aggiunta commento', error);
+
     }
   };
 
   if (!userData) {
     return <div>Caricamento...</div>;
-  }
+  };
   
   const goToProfile = () => {
     navigate('/profile'); 
@@ -162,10 +168,10 @@ const UserProfile = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth); 
-      console.log('User logged out successfully');
+      console.log('User logout con successo');
       navigate('/'); 
     } catch (error) {
-      console.error('Error logging out:', error.message);
+      console.error('errore di logout:', error.message);
     }
   };
 
@@ -189,7 +195,6 @@ const UserProfile = () => {
             const likedUsers = post.likedUsers || [];
             const hasLiked = likedUsers.includes(currentUser?.uid);
             const commentText = commentTexts[post.id] || '';
-
             return (
               <div key={post.id} className="user-post-item">
                 <div className="post-header">
@@ -201,17 +206,13 @@ const UserProfile = () => {
                   className="post-audio"
                   ref={(el) => (audioRefs.current[index] = el)}
                   onPlay={() => handlePlay(index)}
-                  onError={(e) => console.log(e.target.error)}
-                >
+                  onError={(e) => console.log(e.target.error)}>
                   <source src={post.trackUrl} type="audio/mp3" />
                   Il tuo browser non supporta questo formato audio...
                 </audio>
                 <p className="post-description">{post.description}</p>
                 <div className="post-footer">
-                  <button
-                    className="like-button"
-                    onClick={() => handleLike(post.id, post.likes, likedUsers)}
-                  >
+                  <button className="like-button" onClick={() => handleLike(post.id, post.likes, likedUsers)}>
                     {hasLiked ? <FaHeart color="red" /> : <FaRegHeart />}
                   </button>
                   <span className="likes-count">{`Likes: ${Math.round(post.likes)}`}</span>
@@ -221,22 +222,13 @@ const UserProfile = () => {
                   {Object.values(post.comments || {}).map(comment => (
                     <div key={comment.userId}>
                       <strong>{commentAuthors[comment.userId] || 'Caricamento...'}:</strong> {comment.text}
-                    </div>
-                  ))}
-                  <input
-                    type="text"
-                    value={commentText}
-                    onChange={(e) => handleCommentChange(post.id, e.target.value)}
-                    placeholder="Aggiungi un commento..."
-                  />
+                    </div>))}
+                  <input type="text" value={commentText} onChange={(e) => handleCommentChange(post.id, e.target.value)} placeholder="Aggiungi un commento..."/>
                   <button onClick={() => addComment(post.id)}>Invia</button>
                 </div>
               </div>
             );
-          })
-        ) : (
-          <p>Nessun post trovato.</p>
-        )}
+          })) : (<p>Nessun post trovato.</p>)}
       </div>
     </div>
   );

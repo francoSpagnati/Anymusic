@@ -1,11 +1,11 @@
+//import
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { FaUser, FaMusic } from 'react-icons/fa'; 
 import { auth } from '../services/firebaseConfig';
-import PostsList from '../PostList/PostList'; // Importa il componente per i post
+import PostsList from '../PostList/PostList';
 import { IoHomeSharp } from "react-icons/io5";
-
 import './Home.css';
 
 const Home = () => {

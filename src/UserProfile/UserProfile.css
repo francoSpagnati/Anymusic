@@ -37,18 +37,18 @@
   
   .post-image {
     width: 100%;
-    height: 200px; /* Imposta un'altezza fissa per le immagini */
-    object-fit: cover; /* Adatta le immagini troppo grandi */
+    height: 200px; 
+    object-fit: cover; 
     border-radius: 8px;
   }
   
   .post-audio {
-    width: 300px; /* Imposta la larghezza fissa desiderata */
+    width: 300px; 
   margin-bottom: 10px;
   }
   
   .post-description {
-    width: 300px; /* Imposta la larghezza fissa desiderata */
+    width: 300px; 
     margin-bottom: 10px;
     font-size: 1em;
     color: #333;
@@ -63,7 +63,7 @@
   }
   
   .comments-section {
-    width: 300px; /* Imposta la larghezza fissa desiderata */
+    width: 300px; 
     margin-bottom: 10px;
   }
   

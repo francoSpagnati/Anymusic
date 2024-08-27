@@ -6,6 +6,7 @@ import { ref, set } from 'firebase/database';
 import './Login.css';
 
 const Login = () => {
+  //stati
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -31,12 +32,11 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     setLoading(true);
     try {
+
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
       const username = user.email.split('@')[0];
-
-      // Salvataggio
+      //aggiorna DB
       await set(ref(db, 'users/' + user.uid), {
         name: username,
         email: user.email,
@@ -44,6 +44,7 @@ const Login = () => {
 
       console.log('user loggato con google e salvato correttamente sul db');
       navigate('/home');
+
     } catch (error) {
       setError(error.message);
     } finally {
@@ -52,11 +53,11 @@ const Login = () => {
   };
 
   const handlePasswordReset = async () => {
+
     if (!email) {
       setError('Inserisci la tua mail per resettare la password');
       return;
     }
-
     try {
       await sendPasswordResetEmail(auth, email);
       setResetEmailSent(true);
@@ -64,6 +65,7 @@ const Login = () => {
     } catch (error) {
       setError(error.message);
     }
+
   };
 
   const goToRegister = () => {
@@ -110,9 +112,7 @@ const Login = () => {
               </>
             )}
           </div>
-          <button type="button" onClick={handlePasswordReset} className="forgot-password-button">
-            Ho dimenticato la password
-          </button>
+          <button type="button" onClick={handlePasswordReset} className="forgot-password-button">Ho dimenticato la password</button>
           <hr className="divider" />
           <div className="or-container">
             <center>
@@ -121,9 +121,7 @@ const Login = () => {
           </div>
           <div className="google-login-container">
             <center>
-              <button type="button" onClick={handleGoogleLogin} className="google-login-button">
-                Login with Google
-              </button>
+              <button type="button" onClick={handleGoogleLogin} className="google-login-button">Login with Google</button>
             </center>
           </div>
         </form>

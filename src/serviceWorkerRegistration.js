@@ -1,8 +1,4 @@
-// src/serviceWorkerRegistration.js
-
-// Questo file può essere generato automaticamente da create-react-app
-// per gestire il service worker
-
+//codice per registrazione service worker
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
       window.location.hostname === '[::1]' ||

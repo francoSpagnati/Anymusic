@@ -1,8 +1,9 @@
+//import
 import React, { useEffect, useState, useRef } from 'react';
 import { db, auth } from '../services/firebaseConfig';
 import { ref, onValue, query, orderByChild, update } from 'firebase/database';
 import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import './PostList.css';
 
 const PostsList = () => {
@@ -12,10 +13,10 @@ const PostsList = () => {
   const audioRefs = useRef({});
   const currentUser = auth.currentUser;
   const previousPostsRef = useRef([]);
-  const navigate = useNavigate(); // Inizializza useNavigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    // Richiedi il permesso per le notifiche
+    // richiesta permesso notifiche
     if (Notification.permission !== "granted") {
       Notification.requestPermission();
     }
@@ -31,7 +32,7 @@ const PostsList = () => {
     };
 
     fetchUsers();
-  }, []);
+  },[]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -59,12 +60,10 @@ const PostsList = () => {
       } catch (error) {
         console.error('Errore caricamento post', error);
       }
-    };
-
-    fetchPosts();
-  }, []);
+    };fetchPosts();}, []);
 
   const showNotification = (newPost) => {
+    //invio della notifica
     if (Notification.permission === "granted") {
       new Notification("Nuovo post!", {
         body: `${newPost.userName} ha pubblicato un nuovo post: ${newPost.trackName}`,
@@ -84,12 +83,15 @@ const PostsList = () => {
       audioRefs.current[index].play().catch(error => {
         console.error('Errore riproduzione audio', error);
       });
+
     }
   };
 
   const handleError = (event) => {
+
     const error = event.target.error;
     console.log(error);
+
   };
 
   const handleLike = async (postId, currentLikes, likedUsers = []) => {
@@ -100,29 +102,31 @@ const PostsList = () => {
 
     try {
       const postRef = ref(db, `posts/${postId}`);
-
       if (hasLiked) {
         const updatedLikedUsers = likedUsers.filter(id => id !== userId);
         await update(postRef, {
           likes: Math.max(currentLikes - 1, 0),
           likedUsers: updatedLikedUsers,
         });
+
       } else {
+
         await update(postRef, {
           likes: currentLikes + 1,
           likedUsers: [...likedUsers, userId],
         });
+
       }
+
     } catch (error) {
-      console.error('Errore aggiornamento like', error);
+
+      console.error('errore aggiornamento like', error);
+
     }
   };
 
   const handleCommentChange = (postId, text) => {
-    setCommentTexts(prevState => ({
-      ...prevState,
-      [postId]: text
-    }));
+    setCommentTexts(prevState => ({...prevState,[postId]: text}));
   };
 
   const addComment = async (postId) => {
@@ -139,14 +143,12 @@ const PostsList = () => {
         userName,
         text: commentText,
       });
-      setCommentTexts(prevState => ({
-        ...prevState,
-        [postId]: ''
-      })); 
+      setCommentTexts(prevState => ({...prevState,[postId]: ''})); 
     } catch (error) {
-      console.error('Errore aggiunta commento', error);
+      console.error('errore aggiunta commento', error);
     }
   };
+
   const handleUserClick = (userId) => {
     if (userId === currentUser.uid) {
       navigate('/profile');
@@ -156,6 +158,7 @@ const PostsList = () => {
   };
 
   return (
+
     <div className="posts-container">
       {posts.map((post, index) => {
         const likedUsers = post.likedUsers || [];
@@ -165,12 +168,9 @@ const PostsList = () => {
         return (
           <div key={post.id} className="post-item">
             <div className="post-header">
-            <div 
-                className="user-name" 
-                onClick={() => handleUserClick(post.userId)} 
-              >
+            <div className="user-name" onClick={() => handleUserClick(post.userId)} >
                 {post.userName}
-              </div>
+            </div>
               <div className="track-name">{post.trackName}</div>
             </div>
             <img src={post.imageUrl} alt="Post" className="post-image" />
@@ -179,17 +179,13 @@ const PostsList = () => {
               className="post-audio"
               ref={(el) => (audioRefs.current[index] = el)}
               onPlay={() => handlePlay(index)}
-              onError={handleError}
-            >
+              onError={handleError}>
               <source src={post.trackUrl} type="audio/mp3" />
               Il tuo browser non supporta questo formato audio...
             </audio>
             <p className="post-description">{post.description}</p>
             <div className="post-footer">
-              <button
-                className="like-button"
-                onClick={() => handleLike(post.id, post.likes, likedUsers)}
-              >
+              <button className="like-button" onClick={() => handleLike(post.id, post.likes, likedUsers)}>
                 {hasLiked ? <FaHeart color="red" /> : <FaRegHeart />}
               </button>
               <span className="likes-count">{`Likes: ${Math.round(post.likes)}`}</span>
@@ -201,12 +197,7 @@ const PostsList = () => {
                   <strong>{users[comment.userId]?.name || 'Utente sconosciuto'}:</strong> {comment.text}
                 </div>
               ))}
-              <input
-                type="text"
-                value={commentText}
-                onChange={(e) => handleCommentChange(post.id, e.target.value)}
-                placeholder="Aggiungi un commento..."
-              />
+              <input type="text" value={commentText} onChange={(e) => handleCommentChange(post.id, e.target.value)}  placeholder="Aggiungi un commento..."/>
               <button onClick={() => addComment(post.id)}>Invia</button>
             </div>
           </div>
@@ -214,6 +205,7 @@ const PostsList = () => {
       })}
     </div>
   );
+  
 };
 
 export default PostsList;

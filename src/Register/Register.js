@@ -20,7 +20,7 @@ const Register = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Salva il nome dell'utente nel database
+      // salvo nome utente nel db
       await set(dbRef(db, 'users/' + user.uid), {
         name,
         email,
@@ -52,10 +52,10 @@ const Register = () => {
       <header className="homepage-header">
         <h1>AnyMusic</h1>
       </header>
-      
       {error && <p className="error-message">{error}</p>}
       <div className='login-container'>
       <form onSubmit={handleRegister} className='login-form'>
+
         <h2><center>Register</center></h2>
         <input
           type="text"
@@ -64,6 +64,7 @@ const Register = () => {
           placeholder="Name"
           required
         />
+
         <input
           type="email"
           value={email}
@@ -71,6 +72,7 @@ const Register = () => {
           placeholder="Email"
           required
         />
+
         <input
           type="password"
           value={password}
@@ -81,15 +83,14 @@ const Register = () => {
         
         <div className='button-container'>
           {loading ? (
-            <div className="spinner"></div>
-          ) : (
-            <>
+            <div className="spinner"></div>) : (<>
               <button type="submit" className='login-button'>Register</button>
               <button type="button" onClick={goToLogin} className='login-button'>Login</button>
             </>
           )}
         </div>
       </form>
+
       </div>
     </div>
   );

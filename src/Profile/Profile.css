@@ -41,13 +41,13 @@
 
 .profile-post-item img {
   width: 100%;
-  height: 200px; /* Imposta un'altezza fissa per le immagini */
-  object-fit: cover; /* Adatta le immagini troppo grandi */
+  height: 200px; 
+  object-fit: cover; 
   border-radius: 8px;
 }
 
 .profile-post-item audio {
-  width: 300px; /* Imposta la larghezza fissa desiderata */
+  width: 300px; 
   margin-bottom: 10px;
 }
 
@@ -70,21 +70,21 @@
   color: #ff4d4d;
 }
 .home-bar {
-  background-color: var(--beige); /* Colore di sfondo beige */
-  position: fixed; /* Fissa la barra in alto */
+  background-color: var(--beige); 
+  position: fixed; 
   top: 0;
-  width: 100%; /* La barra copre l'intera larghezza */
-  z-index: 1000; /* Assicura che la barra sia sopra altri contenuti */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra leggera */
-  display: flex; /* Utilizza flexbox per il layout */
-  align-items: center; /* Centra verticalmente gli elementi */
-  justify-content: space-between; /* Spazia gli elementi */
-  padding: 0 20px; /* Padding interno */
-  height: 60px; /* Altezza della barra */
-  box-sizing: border-box; /* Assicura che il padding sia incluso nella larghezza */
+  width: 100%; 
+  z-index: 1000; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 0 20px; 
+  height: 60px;
+  box-sizing: border-box; 
 }
 .welcome-message {
-  margin: 40px 0 20px 0; /* Aggiungi un margine superiore più grande */
+  margin: 40px 0 20px 0;
   text-align: center;
 }
 

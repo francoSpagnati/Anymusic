@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { storage, db, auth } from '../services/firebaseConfig';
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { ref as dbRef, set, get } from 'firebase/database';
-import { v4 as uuidv4 } from 'uuid'; // Importa la libreria uuid
+import { v4 as uuidv4 } from 'uuid'; 
+//Icone
 import { IoHomeSharp } from "react-icons/io5";
 import {FaUser,FaMusic} from 'react-icons/fa'; 
-import './Post.css'; // Assicurati di avere questo file CSS per lo stile
+import './Post.css'; 
 
 const PostTrack = () => {
   const [track, setTrack] = useState(null);
@@ -33,29 +34,29 @@ const PostTrack = () => {
         throw new Error('Traccia, immagine, o nome della traccia mancante');
       }
 
-      // Genera identificatori unici per l'immagine e la traccia
+      //Id unici per le tracce
       const uniqueImageName = `${uuidv4()}_${image.name}`;
       const uniqueTrackName = `${uuidv4()}_${track.name}`;
 
-      // Carica l'immagine
+      // upload immagine
       const imageStorageRef = storageRef(storage, `images/${uniqueImageName}`);
       await uploadBytes(imageStorageRef, image);
       const imageUrl = await getDownloadURL(imageStorageRef);
 
-      // Carica la traccia
+      // upload della traccia
       const trackStorageRef = storageRef(storage, `tracks/${uniqueTrackName}`);
       await uploadBytes(trackStorageRef, track);
       const trackUrl = await getDownloadURL(trackStorageRef);
 
-      // Genera un ID unico per il post
+      // generazione id sel post
       const postId = Date.now().toString();
 
-      // Recupera il nome dell'utente dal database
+      // nome utente dal db
       const userRef = dbRef(db, 'users/' + auth.currentUser.uid);
       const userSnapshot = await get(userRef);
       const userName = userSnapshot.val().name;
 
-      // Salva il post nel Realtime Database
+      // salvataggio post nel db
       await set(dbRef(db, 'posts/' + postId), {
         trackUrl,
         imageUrl,
@@ -63,7 +64,7 @@ const PostTrack = () => {
         trackName,
         createdAt: new Date().toISOString(),
         userId: auth.currentUser.uid,
-        userName, // Salva il nome dell'utente
+        userName, 
         likes: 0,
         likedUsers: [], 
       });
@@ -77,12 +78,15 @@ const PostTrack = () => {
       setLoading(false);
     }
   };
+
   const handleHome = ()=>{
     navigate('/home');
   }
+
   const goToProfile = () => {
     navigate('/profile'); 
   };
+
   const handleLogout = async () => {
     try {
       await signOut(auth); 
@@ -92,9 +96,11 @@ const PostTrack = () => {
       console.error('Errore di logout:', error.message);
     }
   };
+
   const goToPost = () => {
     navigate('/post'); 
   };
+
   return (
     <div className="post-page">
     <header className="home-bar">
@@ -109,7 +115,9 @@ const PostTrack = () => {
         </div>
       </header>
     <div className="post-track-container">
-      <h2>Post a Track</h2>
+
+      <h2>Posta una Traccia</h2>
+
       <form onSubmit={handlePost} className="post-track-form">
         <label htmlFor="trackName">Nome della tua traccia</label>
         <input
@@ -153,6 +161,7 @@ const PostTrack = () => {
 
       {loading && <div className="loading-overlay">Posting...</div>}
       {message && <p className="message">{message}</p>}
+      
     </div>
     </div>
   );
