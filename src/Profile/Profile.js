@@ -19,7 +19,7 @@ const Profile = () => {
   const audioRefs = useRef({});
   const [userName, setUserName] = useState('');
 
-
+  //caricamento dati utente
   useEffect(() => {
     const fetchUserData = async () => {
       setLoading(true);
@@ -64,6 +64,7 @@ const Profile = () => {
   }, []);
   
 
+  //gestire cancellazione del post
   const handleDelete = async (postId) => {
     try {
       await remove(ref(db, 'posts/' + postId));
@@ -96,7 +97,7 @@ const Profile = () => {
     return <p>{error}</p>;
   };
 
-
+//navigazione
   const goToPost = () => {
     navigate('/post'); 
   };

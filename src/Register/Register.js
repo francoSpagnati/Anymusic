@@ -1,3 +1,4 @@
+//import
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../services/firebaseConfig';
@@ -13,6 +14,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  //gestione registrazione di un nuovo utente su firebase
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);

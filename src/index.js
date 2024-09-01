@@ -13,5 +13,6 @@ root.render(
   </React.StrictMode>,
 );
 reportWebVitals();
+//registrazione serviceworker
 serviceWorkerRegistration.register();
 

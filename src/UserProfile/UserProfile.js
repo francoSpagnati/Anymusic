@@ -11,6 +11,7 @@ import { IoHomeSharp } from "react-icons/io5";
 import './UserProfile.css';
 
 const UserProfile = () => {
+  //stati per gestione dei post
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
@@ -39,7 +40,7 @@ const UserProfile = () => {
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setUserPosts(postsData);
 
-          // Carico l'autore dei commenti dal db
+          // caricamento autore dei commenti
           postsData.forEach(post => {
             if (post.comments) {
               Object.values(post.comments).forEach(comment => {
@@ -76,7 +77,7 @@ const UserProfile = () => {
     fetchUserPosts();
   }, [userId, commentAuthors]);
 
-
+  //gestione play delle tracce
   const handlePlay = (index) => {
     Object.values(audioRefs.current).forEach((audio, i) => {
       if (i !== index && audio) {
@@ -91,6 +92,7 @@ const UserProfile = () => {
     }
   };
 
+  //gestore dei like degli utenti
   const handleLike = async (postId, currentLikes, likedUsers = []) => {
     if (!currentUser) return;
 
@@ -124,6 +126,7 @@ const UserProfile = () => {
     }));
   };
 
+  //gestione aggiunta di un commento
   const addComment = async (postId) => {
     const commentText = commentTexts[postId] || '';
     if (!commentText.trim()) return;
@@ -153,6 +156,7 @@ const UserProfile = () => {
     return <div>Caricamento...</div>;
   };
   
+  //navigazione
   const goToProfile = () => {
     navigate('/profile'); 
   };

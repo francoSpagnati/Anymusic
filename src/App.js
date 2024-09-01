@@ -19,6 +19,7 @@ const App = () => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 
+    //per controllare stato della rete
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
@@ -38,7 +39,7 @@ const App = () => {
         <Route path="/" element={isOnline ? <Login /> : <OfflinePage />} />
         <Route path="/register" element={isOnline ? <Register /> : <OfflinePage />} />
         
-        {/* Rotte protette */}
+        {/* rotte protette */}
         <Route 
           path="/home" 
           element={isOnline ? (<ProtectedRoute><Home /></ProtectedRoute>) : (<OfflinePage />)} 
@@ -55,7 +56,7 @@ const App = () => {
           path="/profile/:userId" 
           element={isOnline ? (<ProtectedRoute><UserProfile /></ProtectedRoute>) : (<OfflinePage />)} 
         />
-        {/* rotte per pagine inesistenti*/}
+        {/* rotta per pagine inesistenti*/}
         <Route path="*" element={ isOnline ? <OfflinePage /> : <OfflinePage /> } />
       </Routes>
     </Router>

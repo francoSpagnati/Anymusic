@@ -22,6 +22,7 @@ const PostsList = () => {
     }
   }, []);
 
+  //caricamento dati degli user
   useEffect(() => {
     const fetchUsers = async () => {
       const usersRef = ref(db, 'users');
@@ -34,6 +35,7 @@ const PostsList = () => {
     fetchUsers();
   },[]);
 
+  //caricamento dati dei post
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -45,14 +47,14 @@ const PostsList = () => {
               .map(key => ({ id: key, ...data[key] }))
               .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             
-            // Confronta il nuovo stato dei post con il precedente per rilevare nuovi post
+            // confronto il nuovo stato dei post con il precedente per rilevare nuovi post
             if (previousPostsRef.current.length > 0 && postsData.length > previousPostsRef.current.length) {
               const newPost = postsData[0];
               showNotification(newPost);
             }
 
             setPosts(postsData);
-            previousPostsRef.current = postsData; // Aggiorna il riferimento ai post precedenti
+            previousPostsRef.current = postsData; 
           } else {
             setPosts([]);
           }
@@ -72,6 +74,7 @@ const PostsList = () => {
     }
   };
 
+  //funzione per la gestione delle riproduzioni musicali
   const handlePlay = (index) => {
     Object.values(audioRefs.current).forEach((audio, i) => {
       if (i !== index && audio) {
@@ -88,12 +91,12 @@ const PostsList = () => {
   };
 
   const handleError = (event) => {
-
     const error = event.target.error;
     console.log(error);
 
   };
 
+  //gestione dei like degli utenti
   const handleLike = async (postId, currentLikes, likedUsers = []) => {
     if (!currentUser) return;
 
@@ -106,6 +109,7 @@ const PostsList = () => {
         const updatedLikedUsers = likedUsers.filter(id => id !== userId);
         await update(postRef, {
           likes: Math.max(currentLikes - 1, 0),
+
           likedUsers: updatedLikedUsers,
         });
 
@@ -129,6 +133,7 @@ const PostsList = () => {
     setCommentTexts(prevState => ({...prevState,[postId]: text}));
   };
 
+  //gestione dell'aggiunta di un commento 
   const addComment = async (postId) => {
     const commentText = commentTexts[postId] || '';
     if (!commentText.trim()) return;

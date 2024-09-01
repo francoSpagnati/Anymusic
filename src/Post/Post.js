@@ -11,6 +11,7 @@ import {FaUser,FaMusic} from 'react-icons/fa';
 import './Post.css'; 
 
 const PostTrack = () => {
+  //stati per gestire tutte le info da inserire
   const [track, setTrack] = useState(null);
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState('');
@@ -19,6 +20,7 @@ const PostTrack = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+  //funzione per la gestione dell'upload del post
   const handlePost = async (e) => {
     e.preventDefault();
     setLoading(true);

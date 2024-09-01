@@ -15,7 +15,7 @@ const isLocalhost = Boolean(
         checkValidServiceWorker(swUrl, config);
   
         navigator.serviceWorker.ready.then(() => {
-          console.log('Service Worker is ready');
+          console.log('Service Worker pronto');
         });
       } else {
         registerValidSW(swUrl, config);
@@ -27,10 +27,10 @@ const isLocalhost = Boolean(
     navigator.serviceWorker
       .register(swUrl)
       .then((registration) => {
-        console.log('Service Worker registered with scope:', registration.scope);
+        console.log('Service Worker registarto:', registration.scope);
       })
       .catch((error) => {
-        console.error('Error registering Service Worker:', error);
+        console.error('errore:', error);
       });
   }
   
@@ -51,7 +51,7 @@ const isLocalhost = Boolean(
         }
       })
       .catch(() => {
-        console.log('No internet connection found. App is running in offline mode.');
+        console.log('errore service worker');
       });
   }
   

@@ -14,7 +14,7 @@ const Login = () => {
   const [resetEmailSent, setResetEmailSent] = useState(false);
   const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
-
+  //handler per il login utente controllo mail e password
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -28,7 +28,7 @@ const Login = () => {
       setLoading(false);
     }
   };
-
+  //handler per il login di google
   const handleGoogleLogin = async () => {
     setLoading(true);
     try {
@@ -36,7 +36,7 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       const username = user.email.split('@')[0];
-      //aggiorna DB
+      //aggiorna DB per avere un username 
       await set(ref(db, 'users/' + user.uid), {
         name: username,
         email: user.email,
@@ -52,8 +52,8 @@ const Login = () => {
     }
   };
 
+  //handler per il reset della password
   const handlePasswordReset = async () => {
-
     if (!email) {
       setError('Inserisci la tua mail per resettare la password');
       return;

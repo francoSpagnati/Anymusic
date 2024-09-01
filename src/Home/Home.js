@@ -9,8 +9,9 @@ import { IoHomeSharp } from "react-icons/io5";
 import './Home.css';
 
 const Home = () => {
+  //gestione dei percorsi
   const navigate = useNavigate();
-
+  //gestione del logout utente
   const handleLogout = async () => {
     try {
       await signOut(auth); 
@@ -20,7 +21,7 @@ const Home = () => {
       console.error('Error logging out:', error.message);
     }
   };
-
+  //routing
   const goToProfile = () => {
     navigate('/profile'); 
   };

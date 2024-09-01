@@ -1,3 +1,4 @@
+//pagina di Fallback o Offline Page
 import React from 'react';
 
 const OfflinePage = () => {
